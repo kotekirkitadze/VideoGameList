@@ -45,5 +45,5 @@ interface Screenshots {
 interface Trailers {
   data: {
     max: string;
-  }
+  };
 }
