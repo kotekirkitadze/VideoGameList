@@ -20,20 +20,27 @@
 
 
 <div class="games">
-  <div class="game">
+  <ng-container *ngFor="let game of games">
+    <div class="game">
     <div class="game-thumb-container">
-      <img src="https://s3.gaming-cdn.com/images/products/824/271x377/need-for-speed-cover.jpg"
+      <img src="{{game.background_image}}"
            alt="thumbnail"
-           class="game-thumbnail">
+           class="game-thumbnail"
+           *ngIf="game.background_image">
+           <p *ngIf="!game.background_image">No Image</p>
     </div>
     <div class="game-description">
-      <p class="game-name">Name</p>
+      <p class="game-name">{{game.name}}</p>
       <div class="game-platforms">
         <img
+        *ngFor = "let gamePlatform of game.parent_platforms"
           class="game-platform"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ__P6Y8LWr_JgOU0cAtPNeyHUg63K4CtVcEoejXGZNpiwIafzB7f22IfZ1ew7Xypd-fHs&usqp=CAU"
-          alt="slug">
+          src="assets/images/platforms/{{gamePlatform.platform.name}}.svg"
+          alt="{{gamePlatform.platform.name}}">
       </div>
     </div>
   </div>
+  </ng-container>
+
 </div>
+ 
