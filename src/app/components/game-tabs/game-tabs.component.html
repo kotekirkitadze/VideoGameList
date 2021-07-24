@@ -1,45 +1,49 @@
 <div class="game-tabs">
   <mat-tab-group mat-align-tabs="start" backgroundColor="primary">
     <mat-tab label="About">
-      <p class="game-tabs-par">
+      <p class="game-tabs-par" *ngIf="game.gameInfoReq?.parent_platforms?.length">
         Platforms:
-        <span>
-          PC
+        <span *ngFor="let game of game.gameInfoReq?.parent_platforms; let last = last">
+          {{game.platform.name}} <span *ngIf="!last">, </span>
         </span>
       </p>
-      <p class="game-tabs-par">
+      <p class="game-tabs-par" *ngIf="game.gameInfoReq?.publishers?.length">
         Publishers:
-        <span>
-          Konami
+        <span *ngFor="let publisher of game.gameInfoReq?.publishers; let last = last">
+          {{publisher.name}} <span *ngIf="!last">, </span>
         </span>
       </p>
-      <p class="game-tabs-par">
+      <p class="game-tabs-par" *ngIf="game.gameInfoReq?.website">
         Website:
-        <a class="game-tabs-link" href="#" target="_blank">Link</a>
+        <a class="game-tabs-link" href="{{game.gameInfoReq?.website}}" target="_blank">Link</a>
       </p>
-      <div>
-        Some Description
+      <div [innerHTML]="game.gameInfoReq.description">
+        
       </div>
+
       <p class="game-tabs-votes">
-        <span>
-          <mat-icon class="game-votes-up">thumb_up</mat-icon>
-          <span class="game-votes-count">55</span>
-        </span>
-        <span>
-          <mat-icon class="game-votes-down">thumb_down</mat-icon>
-          <span class="game-votes-count">14</span>
-        </span>
+        <ng-container *ngFor="let rating of game.gameInfoReq?.ratings">
+          <span *ngIf="rating?.title === 'exceptional'">
+            <mat-icon class="game-votes-up">thumb_up</mat-icon>
+            <span class="game-votes-count">{{rating.count || 0 }}</span>
+          </span>
+          <span *ngIf="rating?.title === 'skip'">
+            <mat-icon class="game-votes-down">thumb_down</mat-icon>
+            <span class="game-votes-count">{{rating.count || 0 }}</span>
+          </span>
+        </ng-container>
       </p>
     </mat-tab>
-    <mat-tab label="Screenshots">
+    <mat-tab label="Screenshots" *ngIf="game.screenshots?.length">
       <img
         class="game-screenshots"
-        src="https://cdn2.unrealengine.com/Diesel%2Fproductv2%2Fgrand-theft-auto-v%2Fhome%2FGTAV_EGS_Artwork_1920x1080_Hero-Carousel_V06-1920x1080-1503e4b1320d5652dd4f57466c8bcb79424b3fc0.jpg"
+        *ngFor="let screenshot of game?.screenshots"
+        src="{{screenshot.image}}"
         alt="screenshots"/>
     </mat-tab>
-    <mat-tab label="Trailers">
-      <video class="game-trailer" controls>
-        <source src="https://www.youtube.com/watch?v=Y9r_xH4CMjY&t=141s" type="video/mp4">
+    <mat-tab label="Trailers" *ngIf="!game.trailers?.length">
+      <video class="game-trailer" controls *ngFor="let trailer of game.trailers"> 
+        <source src="{{trailer.data?.max}}" type="video/mp4">
         Your Browser does not support the video tag
       </video>
     </mat-tab>
